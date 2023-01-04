@@ -1,0 +1,48 @@
+﻿@model MultiSelectDemo.Models.Filme
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Filme</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group my-4" style="width:100% !important">
+                <select style="width: 100%" id="mySelect2" asp-items="ViewBag.Categorias" multiple=""></select>
+                <input type="hidden" name="categorias" id="categorias" />
+            </div>
+            <div class="form-group my-4">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    (() => {
+        $('#mySelect2').select2({
+            //selectOnClose: true
+        });
+        $('#mySelect2').on('change', function(){
+            $("#categorias").val($('#mySelect2').val().join(','))
+        });
+    })()
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
